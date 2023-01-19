@@ -1,7 +1,10 @@
 <template>
   <div>
-    <h2>{{ title }}</h2>
-    <input type="text" v-model="filter" />
+    <h1>{{ title }}</h1>
+    Filter : <input type="text" v-model="filter" /><br />
+    <input type="checkbox" v-model="onlyFavorites" />
+    <label for="checkbox">Only Favorites</label> <br />
+    Base currency :
     <currency-selector
       :currencies="allCurrencies"
       :selectedCurrency="baseCurrency"
@@ -14,6 +17,7 @@
           <th>Languages</th>
           <th>Currencies</th>
           <th>Map</th>
+          <th>Favorite</th>
         </tr>
       </thead>
       <tbody>
@@ -46,6 +50,18 @@
             <button class="button is-ghost" @click="openMap(country)">
               Map
             </button>
+          </td>
+          <td>
+            <span class="icon is-large">
+              <i
+                class="mdi mdi-36px"
+                :class="{
+                  'mdi-star': isCountryFavorite(country),
+                  'mdi-star-outline': !isCountryFavorite(country),
+                }"
+                @click="toggleFavorite(country)"
+              ></i>
+            </span>
           </td>
         </tr>
       </tbody>
@@ -89,6 +105,7 @@ export default {
       targetComponent: "",
       targetCountry: null,
       targetCurrency: "",
+      onlyFavorites: false,
     };
   },
   methods: {
@@ -114,13 +131,28 @@ export default {
     closeOverlay: function () {
       this.targetComponent = "";
     },
+    addCountryToFavorites: function (country) {
+      this.$store.commit("ADD_FAVORITE", country);
+    },
+    removeCountryFromFavorites: function (country) {
+      this.$store.commit("REMOVE_FAVORITE", country);
+    },
+    isCountryFavorite: function (country) {
+      return this.$store.getters.isCountryFavorite(country);
+    },
+    toggleFavorite: function (country) {
+      if (this.isCountryFavorite(country))
+        this.removeCountryFromFavorites(country);
+      else this.addCountryToFavorites(country);
+    },
   },
   computed: {
-    sortedCountries: function () {
-      return this.$store.getters.sortedCountries;
-    },
     filteredCountries: function () {
-      return this.$store.getters.filteredCountries(this.filter);
+      if (this.onlyFavorites)
+        return this.$store.getters
+          .filteredCountries(this.filter)
+          .filter((c) => this.isCountryFavorite(c));
+      else return this.$store.getters.filteredCountries(this.filter);
     },
     targetProperties: function () {
       let props = {};
@@ -150,13 +182,19 @@ export default {
     allCurrencies: function () {
       return this.$store.getters.allCurrencies;
     },
-    baseCurrency: function() {
+    baseCurrency: function () {
       return this.$store.state.baseCurrency;
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style>
 @import "~bulma/css/bulma.css";
+</style>
+
+<style scoped>
+span.icon > i {
+  cursor: pointer;
+}
 </style>
