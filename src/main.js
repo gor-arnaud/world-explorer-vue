@@ -21,5 +21,7 @@ new Vue({
     fetchCountries()
     .then(countries => store.commit("SET_COUNTRIES", countries))
     .catch(error => console.error(error));
+
+    store.commit("GET_FAVORITES");
   }
 }).$mount('#app');

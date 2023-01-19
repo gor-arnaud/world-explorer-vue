@@ -1,7 +1,10 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import createPersistencePlugin from "./plugins/persistencePlugin";
 
 Vue.use(Vuex);
+
+const persistencePlugin = createPersistencePlugin();
 
 export default new Vuex.Store({
     state: {
@@ -10,6 +13,7 @@ export default new Vuex.Store({
         baseCurrency: "",
         favorites: []
     },
+    plugins: [persistencePlugin],
     getters: {
         sortedCountries: (state) => {
             return [...state.countries].sort((c1, c2) =>
@@ -57,6 +61,10 @@ export default new Vuex.Store({
 
             if (index !== -1)
                 state.favorites.splice(index, 1);
+        },
+        GET_FAVORITES() {},
+        SET_FAVORITES(state, favorites) {
+            state.favorites = favorites;
         }
     }
 })
