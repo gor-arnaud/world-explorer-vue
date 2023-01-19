@@ -121,9 +121,7 @@ export default {
       return this.$store.getters.sortedCountries;
     },
     filteredCountries: function () {
-      return this.sortedCountries.filter((c) =>
-        c.name.common.toLowerCase().includes(this.filter.toLowerCase())
-      );
+      return this.$store.getters.filteredCountries(this.filter);
     },
     targetProperties: function () {
       let props = {};
@@ -159,17 +157,7 @@ export default {
       return this.targetComponent !== "";
     },
     allCurrencies: function () {
-      if (this.sortedCountries.length > 0) {
-        const currencies = [];
-
-        this.sortedCountries.forEach((country) => {
-          if (country.currencies)
-            currencies.push(...Object.keys(country.currencies));
-        });
-        return [...new Set(currencies)].sort();
-      }
-
-      return [];
+      return this.$store.getters.allCurrencies;
     },
   }
 };
