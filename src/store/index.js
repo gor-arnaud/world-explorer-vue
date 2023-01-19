@@ -5,7 +5,9 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        countries: []
+        countries: [],
+        currency: "",
+        baseCurrency: ""
     },
     getters: {
         sortedCountries: (state) => {
@@ -35,6 +37,9 @@ export default new Vuex.Store({
     mutations: {
         SET_COUNTRIES(state, countries) {
             state.countries = countries;
+        },
+        SET_BASE_CURRENCY(state, currency) {
+            state.baseCurrency = currency;
         }
     }
 })

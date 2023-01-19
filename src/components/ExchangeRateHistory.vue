@@ -17,16 +17,15 @@ export default {
     currency: {
       type: String,
       default: "",
-    },
-    baseCurrency: {
-      type: String,
-      default: "",
-    },
+    }
   },
   computed: {
     dataUrl: function () {
       return `https://api.exchangerate.host/timeseries?start_date=2022-12-01&end_date=2023-01-10&base=${this.baseCurrency}&symbols=${this.currency}`;
     },
+    baseCurrency: function() {
+      return this.$store.state.baseCurrency;
+    }
   },
   methods: {
     createChart: function () {

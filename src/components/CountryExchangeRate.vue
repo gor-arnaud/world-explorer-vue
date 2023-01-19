@@ -7,10 +7,7 @@
       @currencyChange="updateLocalCurrency"
     ></currency-selector>
     <exchange-rate-wrapper
-      :currencies="currencies"
       :currency="localCurrency"
-      :base-currency="baseCurrency"
-      @baseCurrencyChange="forwardBaseCurrencyChange"
     ></exchange-rate-wrapper>
   </div>
 </template>
@@ -32,18 +29,10 @@ export default {
       type: Object,
       default: null,
     },
-    currencies: {
-      type: Array,
-      default: () => [],
-    },
     currency: {
       type: String,
       default: "",
-    },
-    baseCurrency: {
-      type: String,
-      default: ""
-    },
+    }
   },
   computed: {
     countryCurrencies: function () {
@@ -55,9 +44,6 @@ export default {
   methods: {
     updateLocalCurrency(newCurrency) {
         this.localCurrency = newCurrency;
-    },
-    forwardBaseCurrencyChange: function(newCurrency) {
-        this.$emit("baseCurrencyChange", newCurrency);
     }
   },
   mounted() {

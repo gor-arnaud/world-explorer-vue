@@ -4,11 +4,10 @@
     <currency-selector
       :currencies="currencies"
       :selectedCurrency="baseCurrency"
-      @currencyChange="forwardCurrencyChange"
+      @currencyChange="updateBaseCurrency"
     ></currency-selector>
     <exchange-rate-history
       :currency="currency"
-      :base-currency="baseCurrency"
     ></exchange-rate-history>
   </div>
 </template>
@@ -24,22 +23,22 @@ export default {
   },
   emits: ["baseCurrencyChange"],
   props: {
-    currencies: {
-        type: Array,
-        default: () => []
-    },
     currency: {
-        type: String,
-        default: ""
-    },
-    baseCurrency: {
         type: String,
         default: ""
     }
   },
+  computed: {
+    currencies: function() {
+      return this.$store.getters.allCurrencies;
+    },
+    baseCurrency: function() {
+      return this.$store.state.baseCurrency;
+    }
+  },
   methods: {
-    forwardCurrencyChange: function(newCurrency) {
-        this.$emit("baseCurrencyChange", newCurrency);
+    updateBaseCurrency: function(newCurrency) {
+        this.$store.commit("SET_BASE_CURRENCY", newCurrency);
     }
   }
 };

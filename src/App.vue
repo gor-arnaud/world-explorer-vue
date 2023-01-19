@@ -86,7 +86,6 @@ export default {
     return {
       title: "World Explorer",
       filter: "",
-      baseCurrency: "EUR",
       targetComponent: "",
       targetCountry: null,
       targetCurrency: "",
@@ -97,7 +96,7 @@ export default {
       this.targetCurrency = newCurrency;
     },
     updateBaseCurrency(newCurrency) {
-      this.baseCurrency = newCurrency;
+      this.$store.commit("SET_BASE_CURRENCY", newCurrency);
     },
     openFlag: function (country) {
       this.targetCountry = country;
@@ -133,9 +132,7 @@ export default {
           break;
         case "CountryExchangeRate":
           props.country = this.targetCountry;
-          props.currencies = this.allCurrencies;
           props.currency = this.targetCurrency;
-          props.baseCurrency = this.baseCurrency;
           break;
         default:
           props = null;
@@ -145,12 +142,6 @@ export default {
       return props;
     },
     targetEventHandlers: function () {
-      if (this.targetComponent === "CountryExchangeRate")
-        return {
-          currencyChange: this.updateTargetCurrency,
-          baseCurrencyChange: this.updateBaseCurrency,
-        };
-
       return {};
     },
     showOverlay: function () {
@@ -159,6 +150,9 @@ export default {
     allCurrencies: function () {
       return this.$store.getters.allCurrencies;
     },
+    baseCurrency: function() {
+      return this.$store.state.baseCurrency;
+    }
   }
 };
 </script>
