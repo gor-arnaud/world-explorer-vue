@@ -53,7 +53,11 @@
     <div class="modal" :class="{ 'is-active': showOverlay }">
       <div class="modal-background"></div>
       <div class="modal-content">
-        <component :is="targetComponent" v-bind="targetProperties" v-on="targetEventHandlers"></component>
+        <component
+          :is="targetComponent"
+          v-bind="targetProperties"
+          v-on="targetEventHandlers"
+        ></component>
       </div>
       <button
         class="modal-close is-large"
@@ -65,7 +69,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import CountryFlag from "./components/CountryFlag.vue";
 import CountryMap from "./components/CountryMap.vue";
 import CountryExchangeRate from "./components/CountryExchangeRate.vue";
@@ -82,7 +85,6 @@ export default {
   data() {
     return {
       title: "World Explorer",
-      countries: [],
       filter: "",
       baseCurrency: "EUR",
       targetComponent: "",
@@ -91,12 +93,6 @@ export default {
     };
   },
   methods: {
-    fetchCountries: function () {
-      axios
-        .get("https://restcountries.com/v3.1/all")
-        .then((response) => (this.countries = response.data))
-        .catch((error) => console.error(error));
-    },
     updateTargetCurrency(newCurrency) {
       this.targetCurrency = newCurrency;
     },
@@ -122,9 +118,7 @@ export default {
   },
   computed: {
     sortedCountries: function () {
-      return [...this.countries].sort((c1, c2) =>
-        c1.name.common.localeCompare(c2.name.common)
-      );
+      return this.$store.getters.sortedCountries;
     },
     filteredCountries: function () {
       return this.sortedCountries.filter((c) =>
@@ -165,10 +159,10 @@ export default {
       return this.targetComponent !== "";
     },
     allCurrencies: function () {
-      if (this.countries.length > 0) {
+      if (this.sortedCountries.length > 0) {
         const currencies = [];
 
-        this.countries.forEach((country) => {
+        this.sortedCountries.forEach((country) => {
           if (country.currencies)
             currencies.push(...Object.keys(country.currencies));
         });
@@ -177,10 +171,7 @@ export default {
 
       return [];
     },
-  },
-  mounted() {
-    this.fetchCountries();
-  },
+  }
 };
 </script>
 
