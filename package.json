@@ -12,7 +12,9 @@
     "bulma": "^0.9.4",
     "core-js": "^3.6.5",
     "lightweight-charts": "^3.8.0",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vuex": "^3.6.2",
+    "vue-router": "^3.5.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.13",

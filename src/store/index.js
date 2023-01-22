@@ -43,6 +43,9 @@ export default new Vuex.Store({
         },
         isCountryFavorite: (state) => (country) => {
             return state.favorites.includes(country.fifa);
+        },
+        getCountry: (state) => (code) => {
+            return state.countries.find(c => c.fifa === code);
         }
     },
     mutations: {

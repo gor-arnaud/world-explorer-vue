@@ -9,7 +9,7 @@
   </div>
 </template>
 <script>
-import EmbeddedImage from "./EmbeddedImage.vue";
+import EmbeddedImage from "../EmbeddedImage.vue";
 import countryComponentMixin from "../../mixins/countryComponentMixin";
 
 export default {

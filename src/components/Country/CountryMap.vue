@@ -2,7 +2,7 @@
   <embedded-map :query="mapQuery" :zoom="areaZoom"></embedded-map>
 </template>
 <script>
-import EmbeddedMap from "./EmbeddedMap.vue";
+import EmbeddedMap from "../EmbeddedMap.vue";
 import countryComponentMixin from "../../mixins/countryComponentMixin";
 
 export default {

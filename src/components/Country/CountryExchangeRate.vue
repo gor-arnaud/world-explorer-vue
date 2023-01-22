@@ -13,7 +13,7 @@
 </template>
 <script>
 import ExchangeRateWrapper from "../ExchangeRateWrapper.vue";
-import CurrencySelector from "./CurrencySelector.vue";
+import CurrencySelector from "../CurrencySelector.vue";
 import countryComponentMixin from "../../mixins/countryComponentMixin";
 
 export default {

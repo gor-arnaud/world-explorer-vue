@@ -1,4 +1,4 @@
-export default countryComponentMixin = {
+const countryComponentMixin = {
     props: {
         country: {
             type: Object,
@@ -6,3 +6,5 @@ export default countryComponentMixin = {
         }
     }
 }
+
+export default countryComponentMixin;
