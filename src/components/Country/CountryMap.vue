@@ -3,16 +3,12 @@
 </template>
 <script>
 import EmbeddedMap from "./EmbeddedMap.vue";
+import countryComponentMixin from "../../mixins/countryComponentMixin";
 
 export default {
   name: "CountryMap",
   components: { EmbeddedMap },
-  props: {
-    country: {
-      type: Object,
-      default: null,
-    },
-  },
+  mixins: [countryComponentMixin],
   computed: {
     mapQuery: function () {
       return this.country.name.common;

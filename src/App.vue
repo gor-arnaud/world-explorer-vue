@@ -13,6 +13,7 @@
     <table class="table">
       <thead>
         <tr>
+          <th>Flag</th>
           <th>Name</th>
           <th>Languages</th>
           <th>Currencies</th>
@@ -23,7 +24,14 @@
       <tbody>
         <tr v-for="country in filteredCountries" v-bind:key="country.fifa">
           <td>
-            <button class="button is-ghost" @click="openFlag(country)">
+            <country-flag
+              :country="country"
+              @click.native="openFlag(country)"
+              class="flag-thumbnail"
+            ></country-flag>
+          </td>
+          <td>
+            <button class="button is-ghost" @click="openIntro(country)">
               {{ country.name.common }}
             </button>
           </td>
@@ -73,6 +81,7 @@
           :is="targetComponent"
           v-bind="targetProperties"
           v-on="targetEventHandlers"
+          :class="targetCssClass"
         ></component>
       </div>
       <button
@@ -85,9 +94,10 @@
 </template>
 
 <script>
-import CountryFlag from "./components/CountryFlag.vue";
-import CountryMap from "./components/CountryMap.vue";
-import CountryExchangeRate from "./components/CountryExchangeRate.vue";
+import CountryFlag from "./components/Country/CountryFlag.vue";
+import CountryMap from "./components/Country/CountryMap.vue";
+import CountryExchangeRate from "./components/Country/CountryExchangeRate.vue";
+import CountryIntro from "./components/Country/CountryIntro.vue";
 import CurrencySelector from "./components/CurrencySelector.vue";
 
 export default {
@@ -96,6 +106,7 @@ export default {
     CountryFlag,
     CountryMap,
     CountryExchangeRate,
+    CountryIntro,
     CurrencySelector,
   },
   data() {
@@ -118,6 +129,10 @@ export default {
     openFlag: function (country) {
       this.targetCountry = country;
       this.targetComponent = "CountryFlag";
+    },
+    openIntro: function (country) {
+      this.targetCountry = country;
+      this.targetComponent = "CountryIntro";
     },
     openMap: function (country) {
       this.targetCountry = country;
@@ -155,15 +170,19 @@ export default {
       else return this.$store.getters.filteredCountries(this.filter);
     },
     targetProperties: function () {
-      let props = {};
+      let props = {
+        country: this.targetCountry
+      };
 
       switch (this.targetComponent) {
         case "CountryFlag":
+          props.showFavorite = true;
+          break;
+        case "CountryIntro":
+          break;
         case "CountryMap":
-          props.country = this.targetCountry;
           break;
         case "CountryExchangeRate":
-          props.country = this.targetCountry;
           props.currency = this.targetCurrency;
           break;
         default:
@@ -175,6 +194,12 @@ export default {
     },
     targetEventHandlers: function () {
       return {};
+    },
+    targetCssClass: function () {
+      if (this.targetComponent === "CountryIntro")
+        return "country-intro"
+
+      return "";
     },
     showOverlay: function () {
       return this.targetComponent !== "";
@@ -196,5 +221,14 @@ export default {
 <style scoped>
 span.icon > i {
   cursor: pointer;
+}
+
+.flag-thumbnail {
+  cursor: pointer;
+}
+
+.country-intro {
+  background-color: #ffffff;
+  color: #000000;
 }
 </style>

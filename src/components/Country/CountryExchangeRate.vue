@@ -12,12 +12,14 @@
   </div>
 </template>
 <script>
-import ExchangeRateWrapper from "./ExchangeRateWrapper.vue";
+import ExchangeRateWrapper from "../ExchangeRateWrapper.vue";
 import CurrencySelector from "./CurrencySelector.vue";
+import countryComponentMixin from "../../mixins/countryComponentMixin";
 
 export default {
   name: "CountryExchangeRate",
   components: { ExchangeRateWrapper, CurrencySelector },
+  mixins: [countryComponentMixin],
   emits: ["baseCurrentyChange"],
   data() {
     return {
@@ -25,10 +27,6 @@ export default {
     };
   },
   props: {
-    country: {
-      type: Object,
-      default: null,
-    },
     currency: {
       type: String,
       default: "",
