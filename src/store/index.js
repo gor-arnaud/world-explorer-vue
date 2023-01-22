@@ -39,13 +39,13 @@ export default new Vuex.Store({
             return [];
         },
         favoriteCountries: (state, getters) => {
-            return getters.sortedCountries.filter(c => state.favorites.includes(c.fifa));
+            return getters.sortedCountries.filter(c => state.favorites.includes(c.cca3));
         },
         isCountryFavorite: (state) => (country) => {
-            return state.favorites.includes(country.fifa);
+            return state.favorites.includes(country.cca3);
         },
         getCountry: (state) => (code) => {
-            return state.countries.find(c => c.fifa === code);
+            return state.countries.find(c => c.cca3 === code);
         }
     },
     mutations: {
@@ -56,11 +56,11 @@ export default new Vuex.Store({
             state.baseCurrency = currency;
         },
         ADD_FAVORITE(state, country) {
-            if (!state.favorites.includes(country.fifa))
-                state.favorites.push(country.fifa);
+            if (!state.favorites.includes(country.cca3))
+                state.favorites.push(country.cca3);
         },
         REMOVE_FAVORITE(state, country) {
-            const index = state.favorites.indexOf(country.fifa);
+            const index = state.favorites.indexOf(country.cca3);
 
             if (index !== -1)
                 state.favorites.splice(index, 1);
