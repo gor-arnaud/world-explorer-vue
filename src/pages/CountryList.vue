@@ -58,8 +58,8 @@
             </router-link>
           </td>
           <td>
-            <button class="button is-ghost" @click="openMap(country)">
-              Map
+            <button @click="gotoMap(country)">
+              Carte
             </button>
           </td>
           <td>
@@ -148,9 +148,13 @@ export default {
         params: { countryCode: country.cca3 },
       });
     },
-    openMap: function (country) {
-      this.targetCountry = country;
-      this.targetComponent = "CountryMap";
+    gotoMap: function (country) {
+      this.$router.push({
+        name: 'map',
+        params: {
+          countryCode: country.cca3
+        }
+      })
     },
     closeOverlay: function () {
       this.targetComponent = "";

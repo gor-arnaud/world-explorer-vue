@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="!!country">
     <h1 class="title">{{ country?.name?.common }}</h1>
     <country-favorite-button :country="country"></country-favorite-button>
     <country-flag :country="country"></country-flag>
