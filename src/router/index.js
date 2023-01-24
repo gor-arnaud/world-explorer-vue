@@ -4,6 +4,7 @@ import CountryList from '../pages/CountryList';
 import CountryDetails from '../pages/CountryDetails';
 import CountryCurrencies from '../pages/CountryCurrencies';
 import CountryMap from '../pages/CountryMap';
+import CountryLanguageCommunity from '../pages/CountryLanguageCommunity';
 import store from '../store';
 
 Vue.use(Router)
@@ -41,6 +42,12 @@ const router = new Router({
             path: '/:countryCode/map',
             name: 'map',
             component: CountryMap,
+            props: route => getCountryPropsByRoute(route)
+        },
+        {
+            path: '/:countryCode/language-community',
+            name: 'language-community',
+            component: CountryLanguageCommunity,
             props: route => getCountryPropsByRoute(route)
         }
     ]

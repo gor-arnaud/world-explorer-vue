@@ -41,11 +41,14 @@
             </router-link>
           </td>
           <td>
-            <ul>
-              <li v-for="language in country.languages" :key="language">
-                {{ language }}
-              </li>
-            </ul>
+            <router-link
+              :to="{
+                name: 'language-community',
+                params: { countryCode: country.cca3 },
+              }"
+            >
+              Communauté
+            </router-link>
           </td>
           <td>
             <router-link
@@ -58,9 +61,7 @@
             </router-link>
           </td>
           <td>
-            <button @click="gotoMap(country)">
-              Carte
-            </button>
+            <button @click="gotoMap(country)">Carte</button>
           </td>
           <td>
             <country-favorite-button
@@ -87,8 +88,15 @@
       ></button>
     </div>
     <nav class="pagination" role="navigation" aria-label="pagination">
-      <a class="pagination-previous" @click="pageIndex--" v-if="pageIndex > 0">Previous</a>
-      <a class="pagination-next" @click="pageIndex++" v-if="pageIndex < numberOfPages - 1">Next page</a>
+      <a class="pagination-previous" @click="pageIndex--" v-if="pageIndex > 0"
+        >Previous</a
+      >
+      <a
+        class="pagination-next"
+        @click="pageIndex++"
+        v-if="pageIndex < numberOfPages - 1"
+        >Next page</a
+      >
       <ul class="pagination-list">
         <li v-for="pageNumber in numberOfPages" :key="pageNumber">
           <a
@@ -150,11 +158,11 @@ export default {
     },
     gotoMap: function (country) {
       this.$router.push({
-        name: 'map',
+        name: "map",
         params: {
-          countryCode: country.cca3
-        }
-      })
+          countryCode: country.cca3,
+        },
+      });
     },
     closeOverlay: function () {
       this.targetComponent = "";
@@ -182,7 +190,7 @@ export default {
           .filter((c) => this.isCountryFavorite(c));
       else return this.$store.getters.filteredCountries(this.filter);
     },
-    itemsOffset: function() {
+    itemsOffset: function () {
       return this.pageIndex * this.itemsPerPage;
     },
     currentPage: function () {
